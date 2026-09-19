@@ -1,11 +1,12 @@
-# Design decisions (locked for Core)
+# Design decisions
 
 ## Goal
-Custom Mario-style platformer + Gymnasium env + PPO agent that beats a random baseline.
+Custom Mario-style platformer + Gymnasium environment + PPO agent that outperforms a random-action baseline.
 
-## Observation (Core)
-Hand-crafted feature vector (not pixels first).
-Exact features will be listed here on Day 4 when `observations.py` is implemented.
+## Observation
+Hand-crafted feature vector for the core experiments (pixel observations reserved for optional follow-up comparison).
+
+Planned features include player position and velocity, distance to goal, nearest enemy relative position, local ground/pit indicators, and an on-ground flag. Exact feature ordering will match `src/mario_rl/env/observations.py`.
 
 ## Action space (discrete)
 - 0: NOOP
@@ -14,22 +15,22 @@ Exact features will be listed here on Day 4 when `observations.py` is implemente
 - 3: JUMP
 - 4: RIGHT+JUMP
 
-## Reward (Core default)
-Progress-shaped:
-- reward for moving toward the goal
+## Reward
+Progress-shaped default:
+- positive signal for moving toward the goal
 - small per-step time penalty
-- bonus on reaching goal
+- success bonus on reaching the goal
 - penalty on death
 
-Exact formula will be finalized in `src/mario_rl/env/rewards.py` and copied here.
+The implemented formula will live in `src/mario_rl/env/rewards.py` and be mirrored in the writeup.
 
 ## Episode end
 - terminated: death or goal reached
-- truncated: max steps exceeded
+- truncated: maximum step limit reached
 
 ## Determinism
-Same seed + same action sequence => same trajectory.
+The same seed and action sequence must produce the same trajectory.
 
 ## Rendering
-- headless for training (`render_mode=None`)
-- optional window / rgb frames for demos later
+- headless mode for training (`render_mode=None`)
+- optional window or RGB frames for debugging and demos

@@ -1,18 +1,21 @@
-# Writeup (draft)
-
-Final length target: 2–4 pages.
+# Writeup
 
 ## 1. MDP formulation
-(To be completed on Days 4–8)
+
+Observation space, action space, reward function, and episode termination will be described here after the environment is complete.
 
 ## 2. Method
-(To be completed on Days 6–8)
+
+Game engine design, environment wrapper, network architecture, PPO configuration, and training procedure.
 
 ## 3. Results
-(To be completed on Days 7–8)
 
-## 4. Limitations & next steps
-(To be completed on Days 8–11)
+Learning curves, comparison against the random baseline, and any additional experiments.
+
+## 4. Limitations and next steps
+
+Failure cases, remaining weaknesses, and directions for further work.
 
 ## 5. Disclosure
+
 See `docs/DISCLOSURE.md`.

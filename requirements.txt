@@ -6,6 +6,6 @@ tqdm>=4.66
 matplotlib>=3.8
 pandas>=2.1
 
-# Install later on Day 6 when we start PPO:
+# PPO stack (add when training pipeline is introduced):
 # torch
 # stable-baselines3

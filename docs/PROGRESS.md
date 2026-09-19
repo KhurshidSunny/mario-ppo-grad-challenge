@@ -1,6 +1,6 @@
 # Progress log
 
-## 2026-09-19 (Day 1)
-- Created repository scaffolding and documentation stubs.
-- Locked high-level MDP design choices in DESIGN.md.
-- Next: implement game physics and level 1 entities.
+## 2026-09-19
+- Initialized repository structure and documentation.
+- Recorded core design decisions in `DESIGN.md`.
+- Next focus: game physics, collisions, and level interactions.

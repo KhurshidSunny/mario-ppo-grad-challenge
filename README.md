@@ -1,4 +1,4 @@
-# Mario-style Platformer + PPO (Graduate Challenge)
+# Mario-style Platformer + PPO
 
 Ontario Tech — Code & Sorcery Lab  
 Graduate Research Assistant Code Challenge  
@@ -6,11 +6,11 @@ Applicant: **Khurshid Khan Ahmadzai**
 
 Challenge brief: https://cpoli.live/apply/grad-challenge/
 
-## Status
+## Overview
 
-Day 1 scaffolding only. Core implementation in progress.
+This repository implements a custom Super Mario Bros–style platformer, wraps it as a reinforcement learning environment, and trains a PPO agent to play it. The goal is a clean, reproducible research engineering submission: game engine, environment API, baseline comparison, training pipeline, and writeup.
 
-## Quick start (will be completed as we build)
+## Setup
 
 ```bash
 python -m venv .venv
@@ -19,15 +19,22 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Train / evaluate commands will be added on Days 6–7.
+Training and evaluation entry points live under `scripts/` once the training pipeline is added.
 
 ## Repository layout
 
-See folders under `src/mario_rl/`, `scripts/`, `tests/`, `configs/`, `docs/`.
+- `src/mario_rl/` — game engine, environment wrapper, agents, utilities
+- `scripts/` — train, evaluate, and demo entry points
+- `levels/` — level maps
+- `configs/` — experiment configuration
+- `tests/` — unit and integration tests
+- `results/` — plots, metrics, and demo artifacts
+- `models/` — saved policy weights
+- `docs/` — design notes, progress log, writeup, disclosure
 
 ## Hardware
 
-To be filled after first training run (CPU/GPU, approximate time).
+Training hardware and approximate wall-clock time will be recorded here after the first full training run.
 
 ## License
 

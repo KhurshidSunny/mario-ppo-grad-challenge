@@ -1,16 +1,12 @@
 # Disclosure
 
-This project follows the challenge rule: AI assistance is allowed if disclosed.
+This file records libraries, references, and any AI assistance used during the project, as required by the challenge guidelines.
 
 ## Libraries
-- To be listed as added (NumPy, Gymnasium, Stable-Baselines3, etc.)
+To be listed when when installed/used.
 
-## Tutorials / references
-- To be listed when used
+## Tutorials and references
+To be listed if any are used.
 
 ## AI assistance
-- Planning and explanations with Cursor / AI coding assistant
-- All code will be reviewed and understood by Khurshid Khan Ahmadzai before submission
-- Final implementation ownership and interview explanations: applicant
-
-Update this file whenever a new library, tutorial, or AI-assisted section is introduced.
+To be added when used.

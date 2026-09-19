@@ -1,14 +1,12 @@
-# Level 1 draft map (will be refined on Days 2–3)
-# Legend (planned):
+# Level 1 map
+# Legend:
 #   # = solid ground/wall
 #   . = empty air
 #   P = player start
 #   G = goal
 #   E = enemy
 #   ^ = hazard (spikes)
-#   (space/pit = fall death if player drops below map)
-#
-# This is a placeholder layout only.
+# Falling below the map counts as death.
 
 ##############################
 #............................#
