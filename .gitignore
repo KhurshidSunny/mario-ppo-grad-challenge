@@ -1,0 +1,33 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.env
+
+# Tools / IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Training artifacts (keep final models tracked intentionally)
+results/plots/*
+!results/plots/.gitkeep
+results/metrics/*
+!results/metrics/.gitkeep
+results/demos/*
+!results/demos/.gitkeep
+models/*.zip
+!models/.gitkeep
+runs/
+tb_logs/
+wandb/
+*.log
+
+# OS
+Thumbs.db
