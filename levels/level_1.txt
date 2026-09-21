@@ -4,14 +4,14 @@
 #   . = empty air
 #   P = player start
 #   G = goal
-#   E = enemy
+#   E = enemy (patrols on the platform)
 #   ^ = hazard (spikes)
-# Falling below the map counts as death.
+# Falling below the map counts as death (pit).
 
 ##############################
 #............................#
 #............................#
-#..P..............E.......G..#
+#..P........^.....E.......G..#
 ######.....#########....######
 #............................#
-##############################
+#............................#

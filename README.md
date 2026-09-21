@@ -4,7 +4,6 @@ Ontario Tech — Code & Sorcery Lab
 Graduate Research Assistant Code Challenge  
 Applicant: **Khurshid Khan Ahmadzai**
 
-Challenge brief: https://cpoli.live/apply/grad-challenge/
 
 ## Overview
 
@@ -30,7 +29,13 @@ Training and evaluation entry points live under `scripts/` once the training pip
 - `tests/` — unit and integration tests
 - `results/` — plots, metrics, and demo artifacts
 - `models/` — saved policy weights
-- `docs/` — design notes, progress log, writeup, disclosure
+- `docs/` — design notes, architecture figure, writeup, disclosure
+
+Quick physics/gameplay check (static ASCII frames):
+
+```bash
+python scripts/play_ascii.py
+```
 
 ## Hardware
 

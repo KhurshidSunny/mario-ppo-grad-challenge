@@ -1,8 +1,4 @@
-"""Print a few static ASCII frames to sanity-check player physics.
-
-Usage:
-  python scripts/play_ascii.py
-"""
+"""Print a few static ASCII frames to sanity-check the level."""
 
 from __future__ import annotations
 
@@ -16,30 +12,40 @@ from mario_rl.game.constants import ACTION_JUMP, ACTION_LEFT, ACTION_NOOP, ACTIO
 from mario_rl.game.engine import GameEngine
 
 
+def _print(title: str, engine: GameEngine) -> None:
+    p = engine.player
+    status = "alive"
+    if not engine.alive:
+        status = f"dead ({engine.death_cause})"
+    elif engine.reached_goal_flag:
+        status = "goal"
+    print(title)
+    print(
+        f"   x={p.x:.2f}  y={p.y:.2f}  on_ground={p.on_ground}  status={status}"
+    )
+    print(engine.ascii_snapshot())
+    print()
+
+
 def main() -> None:
-    level = ROOT / "levels" / "level_1.txt"
-    engine = GameEngine(level)
+    engine = GameEngine(ROOT / "levels" / "level_1.txt")
     engine.reset(seed=0)
+    _print("1) After reset", engine)
 
-    checks = [
-        ("1) After reset - standing on ground", []),
-        ("2) After RIGHT x5 - moved right on platform", [ACTION_RIGHT] * 5),
-        ("3) After JUMP - in the air", [ACTION_JUMP]),
-        ("4) After NOOP x25 - fell and landed again", [ACTION_NOOP] * 25),
-        ("5) After LEFT x40 - blocked by left wall", [ACTION_LEFT] * 40),
-    ]
+    for _ in range(5):
+        engine.step(ACTION_RIGHT)
+    _print("2) After RIGHT x5", engine)
 
-    for title, actions in checks:
-        for action in actions:
-            engine.step(action)
-        p = engine.player
-        print(title)
-        print(
-            f"   x={p.x:.2f}  y={p.y:.2f}  vx={p.vx:.2f}  vy={p.vy:.2f}  "
-            f"on_ground={p.on_ground}"
-        )
-        print(engine.ascii_snapshot())
-        print()
+    engine.step(ACTION_JUMP)
+    _print("3) After JUMP", engine)
+
+    for _ in range(25):
+        engine.step(ACTION_NOOP)
+    _print("4) After NOOP x25", engine)
+
+    for _ in range(40):
+        engine.step(ACTION_LEFT)
+    _print("5) After LEFT x40", engine)
 
 
 if __name__ == "__main__":
