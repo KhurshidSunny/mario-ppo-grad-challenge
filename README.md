@@ -31,10 +31,11 @@ Training and evaluation entry points live under `scripts/` once the training pip
 - `models/` — saved policy weights
 - `docs/` — design notes, architecture figure, writeup, disclosure
 
-Quick physics/gameplay check (static ASCII frames):
+Quick checks:
 
 ```bash
 python scripts/play_ascii.py
+pytest tests/ -v
 ```
 
 ## Hardware

@@ -2,7 +2,15 @@
 
 ## 1. MDP formulation
 
-Observation space, action space, reward function, and episode termination will be described here after the environment is complete.
+**Actions:** discrete `{NOOP, LEFT, RIGHT, JUMP, RIGHT+JUMP}`.
+
+**Observations:** 10-D feature vector (normalized position/velocity, on-ground flag,
+relative goal and enemy offsets, ground-ahead indicator). See `docs/DESIGN.md`.
+
+**Reward:** progress-shaped — forward movement reward, small per-step cost,
+goal bonus, death penalty.
+
+**Termination:** death or goal. **Truncation:** step limit.
 
 ## 2. Method
 

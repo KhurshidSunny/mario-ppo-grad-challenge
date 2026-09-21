@@ -8,7 +8,7 @@ High-level game structure:
 
 ![Game architecture](figures/game_architecture.png)
 
-The engine takes the level map and a player action, runs physics and game rules on world objects, and updates the game state.
+The engine takes the level map and a player action, runs physics and game rules on world objects, and updates the game state. `MarioEnv` wraps the engine with the Gymnasium `reset` / `step` API.
 
 ## Game rules (Level 1)
 - Solid ground and walls from `#` tiles
@@ -19,9 +19,20 @@ The engine takes the level map and a player action, runs physics and game rules 
 - `GameEngine.reset(seed)` restores a clean start; same seed + same actions replay the same trajectory
 
 ## Observation
-Hand-crafted feature vector for the core experiments (pixel observations reserved for optional comparison).
+Hand-crafted feature vector (`OBS_DIM = 10`, `float32`), built in `src/mario_rl/env/observations.py`:
 
-Planned features include player position and velocity, distance to goal, nearest enemy relative position, local ground/pit indicators, and an on-ground flag. Exact feature ordering will match `src/mario_rl/env/observations.py`.
+| Index | Feature |
+|------:|---------|
+| 0 | player x (normalized by map width) |
+| 1 | player y (normalized by map height) |
+| 2 | player vx (normalized by max move speed) |
+| 3 | player vy (normalized by max fall speed) |
+| 4 | on_ground (0 or 1) |
+| 5 | goal dx (normalized) |
+| 6 | goal dy (normalized) |
+| 7 | nearest enemy dx (normalized; 0 if none) |
+| 8 | nearest enemy dy (normalized; 0 if none) |
+| 9 | ground ahead to the right (0 or 1) |
 
 ## Action space (discrete)
 - 0: NOOP
@@ -31,15 +42,15 @@ Planned features include player position and velocity, distance to goal, nearest
 - 4: RIGHT+JUMP
 
 ## Reward
-Progress-shaped default (wired in the Gymnasium wrapper):
-- positive signal for moving toward the goal
-- small per-step time penalty
-- success bonus on reaching the goal
-- penalty on death
+Default progress-shaped reward in `src/mario_rl/env/rewards.py`:
+- `+0.1 * (x_t - x_{t-1})` for horizontal progress
+- `-0.01` time penalty each step
+- `+10` on reaching the goal
+- `-1` on death
 
 ## Episode end
 - terminated: death or goal reached
-- truncated: maximum step limit reached
+- truncated: maximum step limit reached (`max_episode_steps`, default 2000)
 
 ## Determinism
 The same seed and action sequence must produce the same trajectory.
