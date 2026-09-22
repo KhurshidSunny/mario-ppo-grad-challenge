@@ -38,6 +38,14 @@ python scripts/play_ascii.py
 pytest tests/ -v
 ```
 
+Random baseline evaluation:
+
+```bash
+python scripts/evaluate.py --agent random --episodes 30 --seed 42
+```
+
+Metrics are written under `results/metrics/`.
+
 ## Hardware
 
 Training hardware and approximate wall-clock time will be recorded here after the first full training run.

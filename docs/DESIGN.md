@@ -59,3 +59,19 @@ The same seed and action sequence must produce the same trajectory.
 - headless mode for training (`render_mode=None`)
 - ASCII snapshot script for quick physics/gameplay checks
 - optional window or RGB frames for demos later
+
+## Random baseline (Level 1)
+Command:
+
+```bash
+python scripts/evaluate.py --agent random --episodes 30 --seed 42
+```
+
+Recorded summary (`results/metrics/random_baseline_latest.json`):
+- episodes: 30
+- mean return: 7.84
+- mean x progress: 93.49
+- success rate: 0.00
+- death rate: 1.00
+
+This is the reference the PPO agent must beat.

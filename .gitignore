@@ -20,6 +20,8 @@ results/plots/*
 !results/plots/.gitkeep
 results/metrics/*
 !results/metrics/.gitkeep
+!results/metrics/*_baseline_latest.json
+!results/metrics/*_baseline_latest.csv
 results/demos/*
 !results/demos/.gitkeep
 models/*.zip
