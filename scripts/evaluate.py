@@ -2,6 +2,7 @@
 
 Examples:
   python scripts/evaluate.py --agent random --episodes 30 --seed 42
+  python scripts/evaluate.py --agent ppo --model models/ppo_mario_level1_latest.zip
 """
 
 from __future__ import annotations
@@ -18,6 +19,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from mario_rl.agents.ppo_agent import PPOAgent
 from mario_rl.agents.random_agent import RandomAgent
 from mario_rl.env.mario_env import MarioEnv
 from mario_rl.utils.eval_metrics import run_episode, summarize_episodes
@@ -33,9 +35,15 @@ def load_config(path: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate Mario RL agents")
-    parser.add_argument("--agent", choices=["random"], default="random")
+    parser.add_argument("--agent", choices=["random", "ppo"], default="random")
     parser.add_argument("--episodes", type=int, default=30)
     parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument(
+        "--model",
+        type=Path,
+        default=ROOT / "models" / "ppo_mario_level1_latest.zip",
+        help="Path to saved PPO model (.zip) when --agent ppo",
+    )
     parser.add_argument(
         "--config",
         type=Path,
@@ -60,6 +68,13 @@ def main() -> None:
     env = MarioEnv(level_path=args.level, max_episode_steps=max_steps)
     if args.agent == "random":
         agent = RandomAgent(n_actions=env.action_space.n, seed=seed)
+    elif args.agent == "ppo":
+        if not args.model.exists():
+            raise SystemExit(
+                f"Model not found: {args.model}\n"
+                "Train first: python scripts/train.py"
+            )
+        agent = PPOAgent(args.model, deterministic=True)
     else:
         raise ValueError(f"Unsupported agent: {args.agent}")
 
@@ -72,6 +87,7 @@ def main() -> None:
     metrics = summarize_episodes(episodes)
     payload = {
         "agent": args.agent,
+        "model": str(args.model.as_posix()) if args.agent == "ppo" else None,
         "level": str(args.level.as_posix()),
         "base_seed": seed,
         "max_episode_steps": max_steps,

@@ -75,3 +75,14 @@ Recorded summary (`results/metrics/random_baseline_latest.json`):
 - death rate: 1.00
 
 This is the reference the PPO agent must beat.
+
+## PPO training (Day 6)
+
+- Library: **Stable-Baselines3** `PPO` with `MlpPolicy` (PyTorch backend)
+- Config: `configs/default.yaml` (`total_timesteps`, learning rate, `n_steps`, …)
+- Train: `python scripts/train.py` (or `--timesteps N` for a shorter run)
+- Saves: `models/ppo_mario_level1.zip`, `models/ppo_mario_level1_latest.zip`, plus meta JSON
+- Evaluate: `python scripts/evaluate.py --agent ppo --model models/ppo_mario_level1_latest.zip`
+- ASCII policy demo: `python scripts/demo_ascii.py --agent ppo`
+
+

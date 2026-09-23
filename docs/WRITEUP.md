@@ -15,9 +15,13 @@ goal bonus, death penalty.
 ## 2. Method
 
 Custom game engine wrapped as a Gymnasium environment with feature observations
-and a progress-shaped reward. The first baseline is a uniform random-action agent
-(`src/mario_rl/agents/random_agent.py`), evaluated by `scripts/evaluate.py`.
-PPO training will be added next.
+and a progress-shaped reward. Baselines and learners:
+
+1. **Random agent** — uniform discrete actions (`src/mario_rl/agents/random_agent.py`)
+2. **PPO agent** — Stable-Baselines3 `PPO` + `MlpPolicy`, trained by `scripts/train.py`,
+   wrapped for evaluation by `src/mario_rl/agents/ppo_agent.py`
+
+Hyperparameters live in `configs/default.yaml`. Training is headless (no GUI).
 
 ## 3. Results
 
@@ -30,11 +34,24 @@ PPO training will be added next.
 | Death rate | 1.00 |
 
 Source file: `results/metrics/random_baseline_latest.json`.
-PPO comparison numbers will be added after training.
+
+### PPO (Level 1, 200k timesteps, 30 eval episodes, seed 42)
+| Metric | Random | PPO |
+|--------|-------:|----:|
+| Mean return | 7.84 | **11.22** |
+| Mean x progress | 93.49 | **126.46** |
+| Success rate | 0.00 | 0.00 |
+| Death rate | 1.00 | 1.00 |
+
+Training: CPU PyTorch, ~9.3 minutes wall-clock (`models/ppo_mario_level1_meta.json`).
+Eval source: `results/metrics/ppo_baseline_latest.json`.
+
+PPO already beats random on return and forward progress after 200k steps, but still falls into the first pit (no goal clears yet). Longer training and/or reward shaping tweaks are natural next steps.
 
 ## 4. Limitations and next steps
 
-Failure cases, remaining weaknesses, and directions for further work.
+- Level 1 only; pits / enemy / spikes remain hard for short training
+- Full training curves and failure-case analysis after a longer run
 
 ## 5. Disclosure
 

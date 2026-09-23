@@ -6,6 +6,6 @@ tqdm>=4.66
 matplotlib>=3.8
 pandas>=2.1
 
-# PPO stack (add when training pipeline is introduced):
-# torch
-# stable-baselines3
+
+torch>=2.2
+stable-baselines3>=2.3

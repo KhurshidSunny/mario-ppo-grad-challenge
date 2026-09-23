@@ -18,8 +18,6 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Training and evaluation entry points live under `scripts/` once the training pipeline is added.
-
 ## Repository layout
 
 - `src/mario_rl/` — game engine, environment wrapper, agents, utilities
@@ -44,11 +42,37 @@ Random baseline evaluation:
 python scripts/evaluate.py --agent random --episodes 30 --seed 42
 ```
 
-Metrics are written under `results/metrics/`.
+PPO training (CPU is fine for Level 1):
+
+```bash
+# smoke / short run
+python scripts/train.py --timesteps 20000
+
+# full config run (see configs/default.yaml)
+python scripts/train.py
+```
+
+Evaluate a trained PPO model:
+
+```bash
+python scripts/evaluate.py --agent ppo --model models/ppo_mario_level1_latest.zip --episodes 30 --seed 42
+```
+
+ASCII demo of a trained policy (terminal “visual” check):
+
+```bash
+python scripts/demo_ascii.py --agent ppo --model models/ppo_mario_level1_latest.zip
+```
+
+Metrics are written under `results/metrics/`. Models are saved under `models/`.
 
 ## Hardware
 
-Training hardware and approximate wall-clock time will be recorded here after the first full training run.
+Default training uses the **CPU** PyTorch build (`torch 2.14.0+cpu`).
+
+Recorded full run (`total_timesteps: 200000`, seed 42):
+- wall-clock ≈ **9.3 minutes** on Windows 10
+- details in `models/ppo_mario_level1_meta.json`
 
 ## License
 

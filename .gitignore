@@ -24,7 +24,10 @@ results/metrics/*
 !results/metrics/*_baseline_latest.csv
 results/demos/*
 !results/demos/.gitkeep
+results/train_logs/*
+!results/train_logs/.gitkeep
 models/*.zip
+models/*_meta.json
 !models/.gitkeep
 runs/
 tb_logs/
