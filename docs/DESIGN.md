@@ -11,11 +11,13 @@ High-level game structure:
 The engine takes the level map and a player action, runs physics and game rules on world objects, and updates the game state. `MarioEnv` wraps the engine with the Gymnasium `reset` / `step` API.
 
 ## Game rules (Level 1)
-- Solid ground and walls from `#` tiles
+- Solid ground and walls from `#` tiles (brown)
 - Gaps / pits: falling below the map ends the episode (death)
-- One patrol enemy (`E`): touching it ends the episode (death)
-- One hazard (`^` spikes): overlapping the tile ends the episode (death)
-- Goal (`G`): reaching it ends the episode successfully
+- One patrol enemy (`E`, pink/purple): touching it ends the episode (death)
+- Spikes (`^`, red) sit on the path above solid ground — walk into = death; jump over
+- Extra air rows under the ceiling so jumps have vertical room
+- Goal (`G`, green): reaching it ends the episode successfully
+- Player is drawn yellow in the RGB/pygame view
 - `GameEngine.reset(seed)` restores a clean start; same seed + same actions replay the same trajectory
 
 ## Observation
@@ -43,10 +45,10 @@ Hand-crafted feature vector (`OBS_DIM = 10`, `float32`), built in `src/mario_rl/
 
 ## Reward
 Default progress-shaped reward in `src/mario_rl/env/rewards.py`:
-- `+0.1 * (x_t - x_{t-1})` for horizontal progress
+- `+0.12 * (x_t - x_{t-1})` for horizontal progress
 - `-0.01` time penalty each step
 - `+10` on reaching the goal
-- `-1` on death
+- `-1.5` on death
 
 ## Episode end
 - terminated: death or goal reached
@@ -56,9 +58,11 @@ Default progress-shaped reward in `src/mario_rl/env/rewards.py`:
 The same seed and action sequence must produce the same trajectory.
 
 ## Rendering
-- headless mode for training (`render_mode=None`)
+- headless mode for training (`render_mode=None`) — **required path for Core**
 - ASCII snapshot script for quick physics/gameplay checks
-- optional window or RGB frames for demos later
+- RGB tile renderer + GIF recording: `scripts/record_demo.py` → `results/demos/best_agent.gif`
+- Learning curves: `scripts/plot_learning_curves.py` → `results/plots/`
+- Optional keyboard play window: `scripts/play_human.py` (pygame; training stays headless)
 
 ## Random baseline (Level 1)
 Command:

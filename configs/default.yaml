@@ -1,14 +1,15 @@
 seed: 42
 max_episode_steps: 2000
 
-# PPO hyperparameters (Stable-Baselines3)
+# PPO hyperparameters (Stable-Baselines3) 
+# Slightly higher entropy encourages jump/gap exploration vs random.
 total_timesteps: 200000
 learning_rate: 0.0003
 n_steps: 2048
 batch_size: 64
 gamma: 0.99
 clip_range: 0.2
-ent_coef: 0.01
+ent_coef: 0.02
 
 # Default saved model name used by train / evaluate / demo
 model_name: ppo_mario_level1

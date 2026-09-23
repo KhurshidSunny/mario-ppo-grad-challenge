@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-# Tunable weights used by MarioEnv.
-PROGRESS_SCALE = 0.1
+# Tunable weights used by MarioEnv (Day 7 light tune).
+PROGRESS_SCALE = 0.12
 TIME_PENALTY = 0.01
 GOAL_BONUS = 10.0
-DEATH_PENALTY = 1.0
+DEATH_PENALTY = 1.5
 
 
 def compute_reward(

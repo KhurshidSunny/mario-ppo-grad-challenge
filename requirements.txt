@@ -5,7 +5,10 @@ pytest>=8.0
 tqdm>=4.66
 matplotlib>=3.8
 pandas>=2.1
+pillow>=10.0
 
+# Optional windowed human play (training stays headless)
+pygame>=2.5
 
 torch>=2.2
 stable-baselines3>=2.3

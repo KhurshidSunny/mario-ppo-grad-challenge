@@ -8,6 +8,8 @@ This file records libraries, references, and any AI assistance used during the p
 - pyyaml — experiment config files
 - pytest — unit and API tests
 - tqdm, matplotlib, pandas — evaluation and plotting (as needed)
+- pillow — GIF export for demos
+- pygame — optional windowed keyboard play (`scripts/play_human.py`); training remains headless
 - torch — neural network backend for PPO
 - stable-baselines3 — PPO training / checkpointing / evaluation helpers
 

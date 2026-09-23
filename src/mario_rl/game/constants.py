@@ -10,7 +10,7 @@ ENEMY_HEIGHT = 12
 # Vertical motion (y increases downward)
 GRAVITY = 0.45
 MAX_FALL_SPEED = 8.0
-JUMP_VELOCITY = -8.5  # negative = upward
+JUMP_VELOCITY = -9.5  # negative = upward
 
 # Horizontal motion
 MOVE_ACCEL = 0.55

@@ -1,17 +1,20 @@
 # Level 1 map
 # Legend:
-#   # = solid ground/wall
+#   # = solid ground/wall (brown)
 #   . = empty air
-#   P = player start
-#   G = goal
-#   E = enemy (patrols on the platform)
-#   ^ = hazard (spikes)
+#   P = player start (becomes yellow Mario)
+#   G = goal (green)
+#   E = enemy (pink/purple, patrols)
+#   ^ = spikes (red) sitting ON the path — jump over, do not walk into
 # Falling below the map counts as death (pit).
+#
 
 ##############################
 #............................#
 #............................#
-#..P........^.....E.......G..#
-######.....#########....######
+#............................#
+#............................#
+#..P........^^....E.......G..#
+#######..#############..######
 #............................#
 #............................#

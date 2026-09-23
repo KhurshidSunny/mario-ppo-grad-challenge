@@ -15,20 +15,28 @@ venv/
 *.swp
 .DS_Store
 
-# Training artifacts (keep final models tracked intentionally)
+# Training artifacts
 results/plots/*
 !results/plots/.gitkeep
+!results/plots/learning_curve_reward.png
+!results/plots/learning_curve_ep_length.png
+!results/plots/comparison_random_vs_ppo.png
 results/metrics/*
 !results/metrics/.gitkeep
 !results/metrics/*_baseline_latest.json
 !results/metrics/*_baseline_latest.csv
+!results/metrics/comparison_latest.json
+!results/metrics/comparison_latest.md
 results/demos/*
 !results/demos/.gitkeep
+!results/demos/best_agent.gif
 results/train_logs/*
 !results/train_logs/.gitkeep
 models/*.zip
 models/*_meta.json
 !models/.gitkeep
+!models/ppo_mario_level1_latest.zip
+!models/ppo_mario_level1_meta.json
 runs/
 tb_logs/
 wandb/

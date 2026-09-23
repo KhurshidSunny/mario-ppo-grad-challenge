@@ -1,0 +1,29 @@
+{
+  "algorithm": "PPO",
+  "library": "stable-baselines3",
+  "policy": "MlpPolicy",
+  "level": "D:/Scholarships/OntarioTech_Mario_PPO_Challenge/levels/level_1.txt",
+  "seed": 42,
+  "total_timesteps": 200000,
+  "max_episode_steps": 2000,
+  "resumed_from": null,
+  "config": {
+    "learning_rate": 0.0003,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "gamma": 0.99,
+    "clip_range": 0.2,
+    "ent_coef": 0.02,
+    "progress_scale": 0.12,
+    "death_penalty": 1.5
+  },
+  "model_path": "D:/Scholarships/OntarioTech_Mario_PPO_Challenge/models/ppo_mario_level1.zip",
+  "latest_path": "D:/Scholarships/OntarioTech_Mario_PPO_Challenge/models/ppo_mario_level1_latest.zip",
+  "used_best_eval_model": true,
+  "wall_clock_seconds": 394.96,
+  "started_utc": "2026-09-23T06:48:39.341265+00:00",
+  "finished_utc": "2026-09-23T06:55:14.390817+00:00",
+  "python": "3.13.12",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "device": "cpu"
+}

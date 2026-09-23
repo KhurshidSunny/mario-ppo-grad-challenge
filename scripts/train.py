@@ -74,6 +74,17 @@ def main() -> None:
         type=str,
         default="ppo_mario_level1",
     )
+    parser.add_argument(
+        "--resume",
+        type=Path,
+        default=None,
+        help="Optional path to an existing PPO .zip to continue training from",
+    )
+    parser.add_argument(
+        "--reset-monitor",
+        action="store_true",
+        help="Delete previous monitor CSV so learning curves start fresh",
+    )
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -84,6 +95,7 @@ def main() -> None:
         else int(cfg.get("total_timesteps", 200_000))
     )
     max_steps = int(cfg.get("max_episode_steps", 2000))
+    model_name = args.model_name or str(cfg.get("model_name", "ppo_mario_level1"))
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     args.log_dir.mkdir(parents=True, exist_ok=True)
@@ -93,27 +105,41 @@ def main() -> None:
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
     eval_dir.mkdir(parents=True, exist_ok=True)
 
+    if args.reset_monitor:
+        for old in monitor_dir.glob("monitor*.csv"):
+            old.unlink(missing_ok=True)
+
     train_env = make_env(args.level, max_steps, seed, monitor_dir=monitor_dir)
     eval_env = make_env(args.level, max_steps, seed + 10_000)
 
-    model = PPO(
-        "MlpPolicy",
-        train_env,
-        learning_rate=float(cfg.get("learning_rate", 3e-4)),
-        n_steps=int(cfg.get("n_steps", 2048)),
-        batch_size=int(cfg.get("batch_size", 64)),
-        gamma=float(cfg.get("gamma", 0.99)),
-        clip_range=float(cfg.get("clip_range", 0.2)),
-        ent_coef=float(cfg.get("ent_coef", 0.01)),
-        verbose=1,
-        seed=seed,
-        tensorboard_log=None,
-    )
+    if args.resume is not None:
+        resume_path = args.resume
+        if not resume_path.exists():
+            raise SystemExit(f"Resume model not found: {resume_path}")
+        print(f"Resuming from {resume_path}")
+        model = PPO.load(str(resume_path.with_suffix("") if resume_path.suffix == ".zip" else resume_path))
+        model.set_env(train_env)
+        # Apply Day-7 tuned entropy if present in config
+        model.ent_coef = float(cfg.get("ent_coef", model.ent_coef))
+    else:
+        model = PPO(
+            "MlpPolicy",
+            train_env,
+            learning_rate=float(cfg.get("learning_rate", 3e-4)),
+            n_steps=int(cfg.get("n_steps", 2048)),
+            batch_size=int(cfg.get("batch_size", 64)),
+            gamma=float(cfg.get("gamma", 0.99)),
+            clip_range=float(cfg.get("clip_range", 0.2)),
+            ent_coef=float(cfg.get("ent_coef", 0.01)),
+            verbose=1,
+            seed=seed,
+            tensorboard_log=None,
+        )
 
     checkpoint_cb = CheckpointCallback(
         save_freq=max(10_000, timesteps // 5),
         save_path=str(checkpoint_dir),
-        name_prefix=args.model_name,
+        name_prefix=model_name,
     )
     eval_cb = EvalCallback(
         eval_env,
@@ -128,14 +154,18 @@ def main() -> None:
     started = time.perf_counter()
     started_utc = datetime.now(timezone.utc).isoformat()
     print(f"Training PPO for {timesteps} timesteps (seed={seed})")
-    model.learn(total_timesteps=timesteps, callback=[checkpoint_cb, eval_cb])
+    model.learn(
+        total_timesteps=timesteps,
+        callback=[checkpoint_cb, eval_cb],
+        reset_num_timesteps=args.resume is None,
+    )
     elapsed_s = time.perf_counter() - started
 
-    final_path = args.out_dir / args.model_name
+    final_path = args.out_dir / model_name
     model.save(str(final_path))
     # Prefer best eval model as "latest" if it exists
     best_zip = eval_dir / "best_model.zip"
-    latest_path = args.out_dir / f"{args.model_name}_latest"
+    latest_path = args.out_dir / f"{model_name}_latest"
     if best_zip.exists():
         best = PPO.load(str(best_zip.with_suffix("")))
         best.save(str(latest_path))
@@ -152,6 +182,7 @@ def main() -> None:
         "seed": seed,
         "total_timesteps": timesteps,
         "max_episode_steps": max_steps,
+        "resumed_from": str(args.resume.as_posix()) if args.resume else None,
         "config": {
             "learning_rate": float(cfg.get("learning_rate", 3e-4)),
             "n_steps": int(cfg.get("n_steps", 2048)),
@@ -159,9 +190,11 @@ def main() -> None:
             "gamma": float(cfg.get("gamma", 0.99)),
             "clip_range": float(cfg.get("clip_range", 0.2)),
             "ent_coef": float(cfg.get("ent_coef", 0.01)),
+            "progress_scale": 0.12,
+            "death_penalty": 1.5,
         },
-        "model_path": str((args.out_dir / f"{args.model_name}.zip").as_posix()),
-        "latest_path": str((args.out_dir / f"{args.model_name}_latest.zip").as_posix()),
+        "model_path": str((args.out_dir / f"{model_name}.zip").as_posix()),
+        "latest_path": str((args.out_dir / f"{model_name}_latest.zip").as_posix()),
         "used_best_eval_model": used_best,
         "wall_clock_seconds": round(elapsed_s, 2),
         "started_utc": started_utc,
@@ -170,7 +203,7 @@ def main() -> None:
         "platform": platform.platform(),
         "device": "cpu",
     }
-    meta_path = args.out_dir / f"{args.model_name}_meta.json"
+    meta_path = args.out_dir / f"{model_name}_meta.json"
     meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     train_env.close()

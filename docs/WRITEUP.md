@@ -7,8 +7,8 @@
 **Observations:** 10-D feature vector (normalized position/velocity, on-ground flag,
 relative goal and enemy offsets, ground-ahead indicator). See `docs/DESIGN.md`.
 
-**Reward:** progress-shaped — forward movement reward, small per-step cost,
-goal bonus, death penalty.
+**Reward:** progress-shaped — forward movement reward (`0.12` scale), small per-step
+cost, goal bonus (`+10`), death penalty (`-1.5`).
 
 **Termination:** death or goal. **Truncation:** step limit.
 
@@ -21,37 +21,34 @@ and a progress-shaped reward. Baselines and learners:
 2. **PPO agent** — Stable-Baselines3 `PPO` + `MlpPolicy`, trained by `scripts/train.py`,
    wrapped for evaluation by `src/mario_rl/agents/ppo_agent.py`
 
-Hyperparameters live in `configs/default.yaml`. Training is headless (no GUI).
+Hyperparameters live in `configs/default.yaml` (`ent_coef=0.02`). Training is
+headless; demos are recorded as RGB GIFs via `scripts/record_demo.py`.
 
 ## 3. Results
 
-### Random baseline (Level 1, 30 episodes, seed 42)
-| Metric | Value |
-|--------|------:|
-| Mean return | 7.84 |
-| Mean x progress | 93.49 |
-| Success rate | 0.00 |
-| Death rate | 1.00 |
+Level 1, **30 episodes**, seed **42**, PPO trained **200k** timesteps (CPU, ~6.6 min).
 
-Source file: `results/metrics/random_baseline_latest.json`.
+| Metric | Random | PPO | PPO better? |
+|--------|-------:|----:|:-----------:|
+| Mean return | 9.21 | **13.29** | yes |
+| Mean x progress | 93.49 | **126.80** | yes |
+| Success rate | 0.00 | 0.00 | no |
+| Death rate | 1.00 | 1.00 | no |
 
-### PPO (Level 1, 200k timesteps, 30 eval episodes, seed 42)
-| Metric | Random | PPO |
-|--------|-------:|----:|
-| Mean return | 7.84 | **11.22** |
-| Mean x progress | 93.49 | **126.46** |
-| Success rate | 0.00 | 0.00 |
-| Death rate | 1.00 | 1.00 |
+Sources:
+- `results/metrics/comparison_latest.md`
+- `results/metrics/comparison_latest.json`
+- Learning curves: `results/plots/learning_curve_reward.png`
+- Demo GIF: `results/demos/best_agent.gif`
 
-Training: CPU PyTorch, ~9.3 minutes wall-clock (`models/ppo_mario_level1_meta.json`).
-Eval source: `results/metrics/ppo_baseline_latest.json`.
-
-PPO already beats random on return and forward progress after 200k steps, but still falls into the first pit (no goal clears yet). Longer training and/or reward shaping tweaks are natural next steps.
+PPO clearly beats random on **return** and **forward distance**, but still dies in the
+first pit (no goal clears yet). That failure mode is the main next engineering target.
 
 ## 4. Limitations and next steps
 
-- Level 1 only; pits / enemy / spikes remain hard for short training
-- Full training curves and failure-case analysis after a longer run
+- No graphical interactive window required for Core; optional `scripts/play_human.py` (pygame) is for local keyboard play only
+- Agent does not clear pits / spikes / enemy reliably after 200k steps
+- Stretch later: reward ablations, longer training, second level / generalization
 
 ## 5. Disclosure
 
