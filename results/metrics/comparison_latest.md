@@ -6,8 +6,8 @@
 
 | Metric | Random | PPO | Delta (PPO-Random) | PPO better? |
 |--------|-------:|----:|------------------:|:-----------:|
-| mean_return | 9.2112 | 13.2860 | 4.0748 | yes |
-| mean_x_progress | 93.4903 | 126.8000 | 33.3097 | yes |
-| success_rate | 0.0000 | 0.0000 | 0.0000 | no |
-| death_rate | 1.0000 | 1.0000 | 0.0000 | no |
-| mean_steps | 50.7667 | 43.0000 | -7.7667 | no |
+| mean_return | 15.1860 | 52.7688 | 37.5828 | yes |
+| mean_x_progress | 138.5303 | 367.4900 | 228.9597 | yes |
+| success_rate | 0.1000 | 1.0000 | 0.9000 | yes |
+| death_rate | 0.9000 | 0.0000 | -0.9000 | yes |
+| mean_steps | 108.7667 | 133.0000 | 24.2333 | yes |

@@ -8,6 +8,7 @@ __pycache__/
 venv/
 /env/
 .env
+.pytest_cache/
 
 # Tools / IDE
 .idea/
@@ -37,6 +38,7 @@ models/*_meta.json
 !models/.gitkeep
 !models/ppo_mario_level1_latest.zip
 !models/ppo_mario_level1_meta.json
+!models/ppo_mario_level1.zip
 runs/
 tb_logs/
 wandb/

@@ -2,13 +2,17 @@
 
 Ontario Tech — Code & Sorcery Lab  
 Graduate Research Assistant Code Challenge  
-Applicant: **Khurshid Khan Ahmadzai**
+Applicant: **Khurshid Khan Ahmadzai**  
+Status: **Core complete**
 
 ![Best PPO agent demo](results/demos/best_agent.gif)
 
 ## Overview
 
-This repository implements a custom Super Mario Bros–style platformer, wraps it as a reinforcement learning environment, and trains a PPO agent to play it. The goal is a clean, reproducible research engineering submission: game engine, environment API, baseline comparison, training pipeline, and writeup.
+This repository implements a **custom** Super Mario Bros–style platformer (not a
+ROM / emulator wrapper), exposes it as a Gymnasium environment, trains a PPO
+agent, and compares it to a random-action baseline. The submission emphasizes
+clean engineering, a clear MDP, reproducible commands, and honest analysis.
 
 ## Setup
 
@@ -19,68 +23,65 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Repository layout
+## Reproduce the headline result
 
-- `src/mario_rl/` — game engine, environment wrapper, agents, utilities
-- `scripts/` — train, evaluate, plot, and demo entry points
-- `levels/` — level maps
-- `configs/` — experiment configuration
-- `tests/` — unit and integration tests
-- `results/` — plots, metrics, and demo artifacts
-- `models/` — saved policy weights
-- `docs/` — design notes, architecture figure, writeup, disclosure
+```bash
+# 1) Train (CPU OK, headless — ~6–10 minutes for 200k steps)
+python scripts/train.py --timesteps 200000 --seed 42 --reset-monitor
+
+# 2) Compare random vs PPO (30 episodes, seed 42)
+python scripts/evaluate.py --compare --episodes 30 --seed 42
+
+# 3) Learning curves + demo GIF
+python scripts/plot_learning_curves.py
+python scripts/record_demo.py --agent ppo --model models/ppo_mario_level1_latest.zip
+```
 
 Quick checks:
 
 ```bash
+pytest tests/ -q
 python scripts/play_ascii.py
-pytest tests/ -v
 ```
 
-Optional keyboard play (compact camera window — does **not** affect headless training):
+Optional keyboard play (does **not** affect headless training):
 
 ```bash
 python scripts/play_human.py
 ```
 
-Controls: Arrow keys / WASD to move, Space / Up to jump, `R` reset, `Esc` quit.  
-Tip: **run right, then jump at the edge** to clear pits and the red spike gap.  
-Do not walk into red spikes — jump over that gap like a pit.
+Controls: Arrows / WASD move, Space / Up jump, `R` reset, `Esc` quit.  
+Colors: yellow = Mario, brown = ground, red = spikes (jump over), pink = enemy, green = goal.
 
-## Train / evaluate / demo
+## Headline results (Level 1)
 
-```bash
-# train (CPU OK, headless — no window)
-python scripts/train.py
-
-# random vs PPO comparison table + bar chart
-python scripts/evaluate.py --compare --episodes 30 --seed 42
-
-# learning curves from Monitor logs
-python scripts/plot_learning_curves.py
-
-# record GIF
-python scripts/record_demo.py --agent ppo --model models/ppo_mario_level1_latest.zip
-```
-
-## Headline results
-
-Level 1, 30 episodes, seed 42, PPO 200k timesteps:
+30 evaluation episodes, seed 42, PPO trained 200k timesteps on CPU:
 
 | Metric | Random | PPO |
 |--------|-------:|----:|
-| Mean return | 9.21 | **13.29** |
-| Mean x progress | 93.49 | **126.80** |
-| Success rate | 0.00 | 0.00 |
+| Mean return | 15.19 | **52.77** |
+| Mean x progress | 138.53 | **367.49** |
+| Success rate | 0.10 | **1.00** |
+| Death rate | 0.90 | **0.00** |
 
-PPO beats random on return and distance; still fails the first pit.
+PPO beats random on every reported metric and reliably reaches the goal under
+this evaluation protocol.
 
-Artifacts: `results/metrics/comparison_latest.md`, `results/plots/`, `results/demos/best_agent.gif`.
+Artifacts: `results/metrics/comparison_latest.md`, `results/plots/`,
+`results/demos/best_agent.gif`, `models/ppo_mario_level1_latest.zip`.
 
 ## Hardware
 
 - Windows 10, **CPU-only** PyTorch (`torch 2.14.0+cpu`)
+- full train (200k timesteps, seed 42): ≈ **7.2 minutes** wall-clock
+  (`models/ppo_mario_level1_meta.json`)
 
-## License
+## Repository layout
 
-MIT
+- `src/mario_rl/` — game, env, agents, utils
+- `scripts/` — train / evaluate / plot / demo / optional human play
+- `levels/` — Level 1 tile map
+- `configs/default.yaml` — seeds and PPO hyperparameters
+- `tests/` — physics, gameplay, env API, PPO smoke tests
+- `docs/` — DESIGN, WRITEUP, DISCLOSURE, PROGRESS, CORE_CHECKLIST
+

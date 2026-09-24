@@ -2,66 +2,66 @@
   "seed": 42,
   "episodes": 30,
   "model": "D:/Scholarships/OntarioTech_Mario_PPO_Challenge/models/ppo_mario_level1_latest.zip",
-  "created_utc": "2026-09-23T07:05:06.162438+00:00",
+  "created_utc": "2026-09-24T04:34:31.447445+00:00",
   "headline": {
     "ppo_beats_random_on_return": true,
     "ppo_beats_random_on_x_progress": true
   },
   "random": {
     "episodes": 30,
-    "mean_return": 9.211173333333333,
-    "std_return": 1.6655058632806485,
-    "mean_x_progress": 93.49033333333335,
-    "mean_steps": 50.766666666666666,
-    "success_rate": 0.0,
-    "death_rate": 1.0,
+    "mean_return": 15.185973333333358,
+    "std_return": 12.138645353935656,
+    "mean_x_progress": 138.53033333333332,
+    "mean_steps": 108.76666666666667,
+    "success_rate": 0.1,
+    "death_rate": 0.9,
     "truncation_rate": 0.0
   },
   "ppo": {
     "episodes": 30,
-    "mean_return": 13.285999999999992,
-    "std_return": 3.552713678800501e-15,
-    "mean_x_progress": 126.79999999999986,
-    "mean_steps": 43.0,
-    "success_rate": 0.0,
-    "death_rate": 1.0,
+    "mean_return": 52.768799999999814,
+    "std_return": 0.0,
+    "mean_x_progress": 367.48999999999927,
+    "mean_steps": 133.0,
+    "success_rate": 1.0,
+    "death_rate": 0.0,
     "truncation_rate": 0.0
   },
   "table": [
     {
       "metric": "mean_return",
-      "random": 9.211173333333333,
-      "ppo": 13.285999999999992,
-      "delta_ppo_minus_random": 4.0748266666666595,
+      "random": 15.185973333333358,
+      "ppo": 52.768799999999814,
+      "delta_ppo_minus_random": 37.582826666666456,
       "ppo_wins": true
     },
     {
       "metric": "mean_x_progress",
-      "random": 93.49033333333335,
-      "ppo": 126.79999999999986,
-      "delta_ppo_minus_random": 33.3096666666665,
+      "random": 138.53033333333332,
+      "ppo": 367.48999999999927,
+      "delta_ppo_minus_random": 228.95966666666595,
       "ppo_wins": true
     },
     {
       "metric": "success_rate",
-      "random": 0.0,
-      "ppo": 0.0,
-      "delta_ppo_minus_random": 0.0,
-      "ppo_wins": false
+      "random": 0.1,
+      "ppo": 1.0,
+      "delta_ppo_minus_random": 0.9,
+      "ppo_wins": true
     },
     {
       "metric": "death_rate",
-      "random": 1.0,
-      "ppo": 1.0,
-      "delta_ppo_minus_random": 0.0,
-      "ppo_wins": false
+      "random": 0.9,
+      "ppo": 0.0,
+      "delta_ppo_minus_random": -0.9,
+      "ppo_wins": true
     },
     {
       "metric": "mean_steps",
-      "random": 50.766666666666666,
-      "ppo": 43.0,
-      "delta_ppo_minus_random": -7.766666666666666,
-      "ppo_wins": false
+      "random": 108.76666666666667,
+      "ppo": 133.0,
+      "delta_ppo_minus_random": 24.233333333333334,
+      "ppo_wins": true
     }
   ]
 }

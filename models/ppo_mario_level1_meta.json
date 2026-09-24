@@ -20,9 +20,9 @@
   "model_path": "D:/Scholarships/OntarioTech_Mario_PPO_Challenge/models/ppo_mario_level1.zip",
   "latest_path": "D:/Scholarships/OntarioTech_Mario_PPO_Challenge/models/ppo_mario_level1_latest.zip",
   "used_best_eval_model": true,
-  "wall_clock_seconds": 394.96,
-  "started_utc": "2026-09-23T06:48:39.341265+00:00",
-  "finished_utc": "2026-09-23T06:55:14.390817+00:00",
+  "wall_clock_seconds": 431.27,
+  "started_utc": "2026-09-24T04:26:56.531733+00:00",
+  "finished_utc": "2026-09-24T04:34:07.936743+00:00",
   "python": "3.13.12",
   "platform": "Windows-10-10.0.19045-SP0",
   "device": "cpu"
