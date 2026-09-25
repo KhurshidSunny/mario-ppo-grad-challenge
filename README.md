@@ -83,5 +83,5 @@ Artifacts: `results/metrics/comparison_latest.md`, `results/plots/`,
 - `levels/` — Level 1 tile map
 - `configs/default.yaml` — seeds and PPO hyperparameters
 - `tests/` — physics, gameplay, env API, PPO smoke tests
-- `docs/` — DESIGN, WRITEUP, DISCLOSURE, PROGRESS, CORE_CHECKLIST
+- `docs/` — DESIGN, WRITEUP, DISCLOSURE
 
